@@ -1,24 +1,33 @@
-import React from 'react';
-import logo from '../logo.svg';
+import React, { useEffect } from 'react';
 import '../styles/App.css';
 
+const api_key = process.env.REACT_APP_API_KEY;
+
 const App: React.FC = () => {
+  useEffect(() => {
+    fetch(
+      'https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=11362&prefCode=11',
+      {
+        method: 'GET',
+        headers: {
+          'X-API-KEY': `${api_key}`,
+        },
+      }
+    )
+      .then((res) => {
+        const result = res.json();
+        result.then((data) => {
+          console.log(data.result.data);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-      <h1>Hello</h1>
+      <h1>api sample</h1>
     </div>
   );
 };
