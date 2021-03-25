@@ -37,6 +37,29 @@
   }
 }
 
-h1 {
+h1.title {
+  margin: 0;
+  padding: 20px 0;
+  display: block;
   background-color: #61dafb;
+}
+.pref-select-text {
+  text-align: left;
+  width: 90%;
+  margin: 20px auto;
+}
+.pref-checkbox-wrraper {
+  margin: 20px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+/* .pref-checkbox {
+
+} */
+
+/***********  
+スマホサイズ(420px以下)
+*************/
+@media screen and (max-width: 420px) {
 }
