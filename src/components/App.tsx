@@ -88,18 +88,93 @@ const App: React.FC = () => {
         pointStart: 2010,
       },
     },
-    series: series,
+    series: [
+      {
+        name: 'Installation',
+        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175],
+      },
+      {
+        name: 'Manufacturing',
+        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434],
+      },
+      {
+        name: 'Sales & Distribution',
+        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387],
+      },
+      {
+        name: 'Project Development',
+        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227],
+      },
+      {
+        name: 'Other',
+        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111],
+      },
+    ],
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 500,
+          },
+          chartOptions: {
+            yAxis: {
+              labels: {
+                align: 'left',
+                x: 0,
+                y: -5,
+              },
+              title: {
+                text: '人口(人)',
+              },
+            },
+            xAxis: {
+              title: {
+                text: '西暦(年)',
+              },
+            },
+            credits: {
+              enabled: false,
+            },
+          },
+        },
+      ],
+    },
   };
 
-  useEffect(() => {
-    getPrefectures();
-  }, []);
+  // useEffect(() => {
+  //   getPrefectures();
+  // }, []);
 
   return (
     <div className="App">
-      <h1>api sample</h1>
-      <HighchartsReact highcharts={Highcharts} options={options} />
-      <div>
+      <h1 className="title">都道府県別人口推移</h1>
+      <p className="pref-select-text">都道府県を選択</p>
+      <div className="pref-checkbox-wrraper">
+        <div className="pref-checkbox">
+          <input type="checkbox" />
+          千葉県
+        </div>
+        <div className="pref-checkbox">
+          <input type="checkbox" />
+          東京都
+        </div>
+        <div className="pref-checkbox">
+          <input type="checkbox" />
+          埼玉県
+        </div>
+        <div className="pref-checkbox">
+          <input type="checkbox" />
+          神奈川県
+        </div>
+        <div className="pref-checkbox">
+          <input type="checkbox" />
+          茨城県
+        </div>
+      </div>
+      <div className="charts-wrapper">
+        <HighchartsReact highcharts={Highcharts} options={options} />
+      </div>
+      {/* <div>
         {populations.map((population: P, index: number) => (
           <div key={index}>
             <p>
@@ -117,7 +192,7 @@ const App: React.FC = () => {
           />
           {prefecture.prefName}
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };
