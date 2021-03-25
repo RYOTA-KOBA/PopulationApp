@@ -8,12 +8,18 @@ type P = {
   value: number;
 };
 
+type PF = {
+  prefCode: number;
+  prefName: string;
+};
+
 const App: React.FC = () => {
   const [populations, setPopulations] = useState<P[]>([]);
+  const [prefectures, setPrefectures] = useState<PF[]>([]);
 
-  useEffect(() => {
+  const getPopulationData = () => {
     fetch(
-      'https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=11362&prefCode=11',
+      'https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?prefCode=12',
       {
         method: 'GET',
         headers: {
@@ -25,21 +31,51 @@ const App: React.FC = () => {
         return res.json();
       })
       .then((data) => {
-        // console.log(data.result.data[0].data);
         setPopulations(data.result.data[0].data);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const getPrefectures = () => {
+    fetch('https://opendata.resas-portal.go.jp/api/v1/prefectures', {
+      method: 'GET',
+      headers: {
+        'X-API-KEY': `${api_key}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setPrefectures(data.result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getPopulationData();
+    getPrefectures();
   }, []);
 
   return (
     <div className="App">
       <h1>api sample</h1>
       <div>
+        {prefectures.map((prefecture: PF, index: number) => (
+          <div key={index}>
+            <p>
+              {prefecture.prefCode} : {prefecture.prefName}
+            </p>
+          </div>
+        ))}
+      </div>
+      <div>
         {populations.map((population: P, index: number) => (
           <div key={index}>
-            {console.log(population)}
             <p>
               {population.year} : {population.value}
             </p>
