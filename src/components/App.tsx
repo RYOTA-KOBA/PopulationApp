@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../styles/App.css';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import PrefCheckboxList from './PrefCheckboxList';
 
 const api_key = process.env.REACT_APP_API_KEY;
 
@@ -25,7 +26,6 @@ const App: React.FC = () => {
   // handlecheckはcheckされたらonChangeによって動作する関数。
   const handlecheck = (prefCode: number) => {
     const isSelected_cp = isSelected.slice();
-    console.log(isSelected[prefCode - 1]);
     isSelected_cp[prefCode - 1] = !isSelected_cp[prefCode - 1];
     // 選択された都道府県にチェックがつけられているのかの判定
     if (isSelected[prefCode - 1]) {
@@ -43,7 +43,6 @@ const App: React.FC = () => {
       getPopulationData(prefCode);
       setIsSelected(isSelected_cp);
     }
-    console.log(series);
   };
 
   const getPopulationData = (prefCode: number) => {
@@ -147,17 +146,7 @@ const App: React.FC = () => {
     <div className="App">
       <h1 className="title">都道府県別人口推移</h1>
       <p className="pref-select-text">都道府県を選択</p>
-      <div className="pref-checkbox-wrraper">
-        {prefectures.map((prefecture, index) => (
-          <div key={index} className="pref-checkbox">
-            <input
-              type="checkbox"
-              onChange={() => handlecheck(prefecture.prefCode)}
-            />
-            {prefecture.prefName}
-          </div>
-        ))}
-      </div>
+      <PrefCheckboxList prefectures={prefectures} handlecheck={handlecheck} />
       <div className="charts-wrapper">
         <HighchartsReact highcharts={Highcharts} options={options} />
       </div>
