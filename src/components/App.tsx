@@ -5,11 +5,6 @@ import HighchartsReact from 'highcharts-react-official';
 
 const api_key = process.env.REACT_APP_API_KEY;
 
-type P = {
-  year: number;
-  value: number;
-};
-
 type PF = {
   prefCode: number;
   prefName: string;
@@ -20,9 +15,36 @@ type S = {
 };
 
 const App: React.FC = () => {
-  const [populations, setPopulations] = useState<P[]>([]);
   const [prefectures, setPrefectures] = useState<PF[]>([]);
   const [series, setSeries] = useState<S[]>([]);
+  // isSelectedは各都道府県がチェックされているかどうかを格納する配列
+  const [isSelected, setIsSelected] = useState<boolean[]>(
+    Array(47).fill(false)
+  );
+
+  // handlecheckはcheckされたらonChangeによって動作する関数。
+  const handlecheck = (prefCode: number) => {
+    const isSelected_cp = isSelected.slice();
+    console.log(isSelected[prefCode - 1]);
+    isSelected_cp[prefCode - 1] = !isSelected_cp[prefCode - 1];
+    // 選択された都道府県にチェックがつけられているのかの判定
+    if (isSelected[prefCode - 1]) {
+      // チェックありの場合はseriesから該当のデータを削除する
+      const series_cp = series.slice();
+      for (let i = 0; i < series_cp.length; i++) {
+        if (series_cp[i].name === prefectures[prefCode - 1].prefName) {
+          series_cp.splice(i, 1);
+        }
+      }
+      setIsSelected(isSelected_cp);
+      setSeries(series_cp);
+    } else {
+      // チェックなしの倍はデータを取得し配列seriesにpushする
+      getPopulationData(prefCode);
+      setIsSelected(isSelected_cp);
+    }
+    console.log(series);
+  };
 
   const getPopulationData = (prefCode: number) => {
     fetch(
@@ -48,7 +70,6 @@ const App: React.FC = () => {
           data: tmp,
         };
         setSeries([...series, res_series]);
-        // setPopulations();
       })
       .catch((error) => {
         console.log(error);
@@ -82,7 +103,8 @@ const App: React.FC = () => {
         label: {
           connectorAllowed: false,
         },
-        pointStart: 2010,
+        pointStart: 1960,
+        pointInterval: 5,
       },
     },
     series: series,
@@ -130,7 +152,7 @@ const App: React.FC = () => {
           <div key={index} className="pref-checkbox">
             <input
               type="checkbox"
-              onChange={() => getPopulationData(prefecture.prefCode)}
+              onChange={() => handlecheck(prefecture.prefCode)}
             />
             {prefecture.prefName}
           </div>
