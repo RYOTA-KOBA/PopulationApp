@@ -40,39 +40,35 @@ const App: React.FC = () => {
       setSeries(series_cp);
     } else {
       // チェックなしの倍はデータを取得し配列seriesにpushする
-      getPopulationData(prefCode);
-      setIsSelected(isSelected_cp);
-    }
-  };
-
-  const getPopulationData = (prefCode: number) => {
-    fetch(
-      `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${prefCode}`,
-      {
-        method: 'GET',
-        headers: {
-          'X-API-KEY': `${api_key}`,
-        },
-      }
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        const tmp: number[] = [];
-        const dataLength: number = data.result.data[0].data.length;
-        for (let i = 0; i < dataLength; i++) {
-          tmp.push(data.result.data[0].data[i].value);
+      fetch(
+        `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${prefCode}`,
+        {
+          method: 'GET',
+          headers: {
+            'X-API-KEY': `${api_key}`,
+          },
         }
-        const res_series = {
-          name: prefectures[prefCode - 1].prefName,
-          data: tmp,
-        };
-        setSeries([...series, res_series]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      )
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          const populationArray: number[] = [];
+          const dataLength: number = data.result.data[0].data.length;
+          for (let i = 0; i < dataLength; i++) {
+            populationArray.push(data.result.data[0].data[i].value);
+          }
+          const resOfSeries = {
+            name: prefectures[prefCode - 1].prefName,
+            data: populationArray,
+          };
+          setSeries([...series, resOfSeries]);
+          setIsSelected(isSelected_cp);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   const getPrefectures = () => {
@@ -146,7 +142,11 @@ const App: React.FC = () => {
     <div className="App">
       <h1 className="title">都道府県別人口推移</h1>
       <p className="pref-select-text">都道府県を選択</p>
-      <PrefCheckboxList prefectures={prefectures} handlecheck={handlecheck} />
+      <PrefCheckboxList
+        prefectures={prefectures}
+        handlecheck={handlecheck}
+        isSelected={isSelected}
+      />
       <div className="charts-wrapper">
         <HighchartsReact highcharts={Highcharts} options={options} />
       </div>
