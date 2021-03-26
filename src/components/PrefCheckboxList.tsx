@@ -8,6 +8,7 @@ type PF = {
 type Props = {
   prefectures: PF[];
   handlecheck: (value: number) => void;
+  isSelected: boolean[];
 };
 
 const PrefCheckboxList: React.FC<Props> = (props) => {
@@ -18,6 +19,7 @@ const PrefCheckboxList: React.FC<Props> = (props) => {
           <input
             type="checkbox"
             onChange={() => props.handlecheck(prefecture.prefCode)}
+            checked={props.isSelected[prefecture.prefCode - 1]}
             id={`checkbox_${index}`}
           />
           <label htmlFor={`checkbox_${index}`}>{prefecture.prefName}</label>
