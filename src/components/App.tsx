@@ -39,8 +39,8 @@ const App: React.FC = () => {
       })
       .then((data) => {
         const tmp: number[] = [];
-        console.log(data.result.data[0].data);
-        for (let i = 0; i <= 17; i++) {
+        const dataLength: number = data.result.data[0].data.length;
+        for (let i = 0; i < dataLength; i++) {
           tmp.push(data.result.data[0].data[i].value);
         }
         const res_series = {
