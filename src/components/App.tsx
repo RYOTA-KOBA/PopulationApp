@@ -53,7 +53,6 @@ const App: React.FC = () => {
           return res.json();
         })
         .then((data) => {
-          console.log(data);
           const populationArray: number[] = [];
           const dataLength: number = data.result.data[0].data.length;
           for (let i = 0; i < dataLength; i++) {
@@ -83,7 +82,6 @@ const App: React.FC = () => {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         setPrefectures(data.result);
       })
       .catch((error) => {
