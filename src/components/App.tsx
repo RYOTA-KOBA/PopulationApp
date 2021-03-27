@@ -4,7 +4,10 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import PrefCheckboxList from './PrefCheckboxList';
 
-const api_key = process.env.REACT_APP_API_KEY;
+let api_key = process.env.REACT_APP_API_KEY;
+if (process.env.X_API_KEY === 'production') {
+  api_key = process.env.X_API_KEY;
+}
 
 type PF = {
   prefCode: number;
