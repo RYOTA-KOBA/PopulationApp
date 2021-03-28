@@ -6,6 +6,8 @@ import PrefCheckboxList from './PrefCheckboxList';
 import { restfulApiConfig } from '../config.js';
 
 const api_key = restfulApiConfig.apiKey;
+const api_url = restfulApiConfig.apiURL;
+const api_pref_url = restfulApiConfig.apiPrefURL;
 
 type PF = {
   prefCode: number;
@@ -41,15 +43,12 @@ const App: React.FC = () => {
       setSeries(series_cp);
     } else {
       // チェックなしの倍はデータを取得し配列seriesにpushする
-      fetch(
-        `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${prefCode}`,
-        {
-          method: 'GET',
-          headers: {
-            'X-API-KEY': `${api_key}`,
-          },
-        }
-      )
+      fetch(`${api_url}${prefCode}`, {
+        method: 'GET',
+        headers: {
+          'X-API-KEY': `${api_key}`,
+        },
+      })
         .then((res) => {
           return res.json();
         })
@@ -73,7 +72,7 @@ const App: React.FC = () => {
   };
 
   const getPrefectures = () => {
-    fetch('https://opendata.resas-portal.go.jp/api/v1/prefectures', {
+    fetch(`${api_pref_url}`, {
       method: 'GET',
       headers: {
         'X-API-KEY': `${api_key}`,
