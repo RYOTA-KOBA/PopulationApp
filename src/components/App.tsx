@@ -3,8 +3,9 @@ import '../styles/App.css';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import PrefCheckboxList from './PrefCheckboxList';
+import { restfulApiConfig } from '../config.js';
 
-const api_key = process.env.REACT_APP_API_KEY;
+const api_key = restfulApiConfig.apiKey;
 
 type PF = {
   prefCode: number;
