@@ -1,5 +1,7 @@
 ## 概要
 
+【URL】 [https://population-app-git-main-ryota-koba.vercel.app/](https://population-app-git-main-ryota-koba.vercel.app/)
+
 ### 都道府県人口推移グラフ
 1960年から2045年(2020年以降は「国立社会保障・人口問題研究所」のデータ（平成30年3月公表）に基づく推計値。)までの47都道府県の人口推移をグラフ化したものです。
 
@@ -13,6 +15,8 @@
 - eslint: 7.22.0
 - prettier: 2.2.1
 - highcharts: 9.0.1
+
+デプロイ: vercel
 
 ## 都道府県の人口データのソース
 
