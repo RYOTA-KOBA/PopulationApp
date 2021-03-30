@@ -1,6 +1,7 @@
 .pref-checkbox-wrraper {
-  margin: 20px 20px;
+  margin: 20px auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  max-width: 1200px;
 }
